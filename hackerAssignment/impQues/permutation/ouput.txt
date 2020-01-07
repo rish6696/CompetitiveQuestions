@@ -1,0 +1,5 @@
+b1q1 b2q2 b3q3 
+b1q1 b2q2 b4q3 
+b1q1 b3q2 b4q3 
+b2q1 b3q2 b4q3 
+4
