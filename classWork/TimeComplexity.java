@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class TimeComplexity{
     public static void main(String[] args) {
-        int[] arr={0,2,0,1,2,1,0,1};
+        int[] arr={2};
          Sort_012(arr);
         System.out.println(Arrays.toString(arr));
        
@@ -96,6 +96,9 @@ public class TimeComplexity{
     }
 
     public static void swap(int[]arr,int fi,int si){
+        if(arr[fi]==arr[si]){
+            return ;
+        }
         arr[fi]^=arr[si];
         arr[si]^=arr[fi];
         arr[fi]^=arr[si];
@@ -105,18 +108,19 @@ public class TimeComplexity{
     public static void Sort_012(int[]arr){
         int idx=0;
         int pindex=0;
-        int high=arr.length-1;
-        while(idx<high){
+        int high =arr.length-1;
+        while(idx<=high){
             if(arr[idx]==0){
-             swap(arr, idx, pindex);
-              idx++;
-              pindex++;
+                swap(arr,idx,pindex);
+                pindex++;
+                idx++;
             }else if(arr[idx]==1){
-               idx++;
+                idx++;
             }else{
-                swap(arr, high, idx);
+                swap(arr,idx,high);
                 high--;
             }
         }
+     
     }
 }

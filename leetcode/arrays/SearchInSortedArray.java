@@ -1,6 +1,6 @@
 public class SearchInSortedArray{
     public static void main(String[] args) {
-        int [] arr={1,3};
+        int [] arr={96,94,};
         System.out.println(searchSorted(arr, 3));
         
     }

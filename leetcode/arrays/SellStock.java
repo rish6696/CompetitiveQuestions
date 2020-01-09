@@ -41,6 +41,6 @@ public class SellStock{
                 buyPrice=cuurPrice;
             }
         }
-        return maxProfit ==Integer.MIN_VALUE ?0:maxProfit;
+        return maxProfit ==-1000000 ?0:maxProfit;
     }
 }
