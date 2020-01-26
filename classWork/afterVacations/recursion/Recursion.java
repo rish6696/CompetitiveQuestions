@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Recursion{
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         // int r=15;
         // int c =15;
         // boolean [] col =new boolean[c];
@@ -31,7 +31,7 @@ public class Recursion{
         // System.out.println(sudokuSolver(board, 0, rowDone, colDone, matrixDone));
 
 
-        char [][] board ={
+        final char [][] board ={
             {'+', '-', '+', '+', '+', '+', '+', '+', '+', '+'},
             {'+', '-', '+', '+', '+', '+', '+', '+', '+', '+'},
             {'+', '-', '-', '-', '-', '-', '-', '-', '+', '+'},
@@ -44,13 +44,13 @@ public class Recursion{
             {'+', '+', '+', '+', '+', '+', '+', '+', '+', '+'}};
 
 
-        String [] words={"agra", "norway", "england", "gwalior"};
+        final String [] words={"agra", "norway", "england", "gwalior"};
         System.out.println(crossWordSolver(board, words, 0));
 
 
     }
 
-    public static int Nqueen(int row,boolean []col,boolean []Diagonal,boolean []antiDiagonal){
+    public static int Nqueen(final int row,final boolean []col,final boolean []Diagonal,final boolean []antiDiagonal){
         if(row==col.length) return 1;
         int ans =0;
         for(int c=0;c<col.length;c++){
@@ -68,14 +68,14 @@ public class Recursion{
     }
 
 
-    public static int NqueenBits(int row,int n,int col,int Diagonal,int antiDiagonal){
+    public static int NqueenBits(final int row,final int n,int col,int Diagonal,int antiDiagonal){
         if(row==n) return 1;
         int ans =0;
 
         for(int c=0;c<n;c++){
-            int colMask = 1<<c;
-            int diaMask = 1<<(row+c);
-            int antiMask =1 <<(row-c+n-1);
+            final int colMask = 1<<c;
+            final int diaMask = 1<<(row+c);
+            final int antiMask =1 <<(row-c+n-1);
             if((colMask&col)==0 && (diaMask&Diagonal)==0 && (antiMask&antiDiagonal)==0){
                 col|=colMask;
                 Diagonal|=diaMask;
@@ -90,12 +90,12 @@ public class Recursion{
     }
 
 
-    public static void populate(int [][]board,int []rowForSudoku,int []colForSudoku,int [][]matrixForSudoku){
+    public static void populate(final int [][]board,final int []rowForSudoku,final int []colForSudoku,final int [][]matrixForSudoku){
         for(int i=0;i<board.length;i++){
             for(int j=0;j<board[0].length;j++){
                 if(board[i][j]!=0){
-                    int val=board[i][j];
-                    int mask=1<<val;
+                    final int val=board[i][j];
+                    final int mask=1<<val;
                     rowForSudoku[i]|=mask;
                     colForSudoku[j]|=mask;
                     matrixForSudoku[i/3][j/3]|=mask;
@@ -104,7 +104,7 @@ public class Recursion{
             }
         }
     }
-    public static int sudokuSolver(int [][] board,int pos,int []rowDone,int []colDone,int [][] matrixDone){
+    public static int sudokuSolver(final int [][] board,final int pos,final int []rowDone,final int []colDone,final int [][] matrixDone){
         if(pos==81){
             for(int i=0;i<9;i++){
                 System.out.println(Arrays.toString(board[i]));
@@ -113,8 +113,8 @@ public class Recursion{
             return 1;
         }
         int ans =0;
-        int row = pos / 9;
-        int col = pos % 9 ;
+        final int row = pos / 9;
+        final int col = pos % 9 ;
         if(board[row][col]!=0){
             ans+= sudokuSolver(board, pos+1, rowDone, colDone, matrixDone);
         } 
@@ -122,7 +122,7 @@ public class Recursion{
             for (int i = 1; i < 10; i++) {
 
                 if(  ((1<<i)&rowDone[row])==0  && ((1<<i)&colDone[col])==0 && ((1<<i)&matrixDone[row/3][col/3])==0  ){
-                    int mask = 1<<i;
+                    final int mask = 1<<i;
                     rowDone[row]|=mask;
                     colDone[col]|=mask;
                     matrixDone[row/3][col/3]|=mask;
@@ -146,7 +146,7 @@ public class Recursion{
     }
 
 
-    public static boolean isSafeToPlaceHorizontal(char [][] board,int x,int y,String word){
+    public static boolean isSafeToPlaceHorizontal(final char [][] board,final int x,final int y,final String word){
 
         for (int i = 0; i < word.length() ; i++) {
             if(board[x][y+i]!='-' && board[x][y+i]!=word.charAt(i)){
@@ -158,7 +158,7 @@ public class Recursion{
     }
 
 
-    public static boolean isSafeToPlaceVertical(char [][] board,int x,int y,String word){
+    public static boolean isSafeToPlaceVertical(final char [][] board,final int x,final int y,final String word){
 
         for (int i = 0; i < word.length() ; i++) {
             if(board[x+i][y]!='-' && board[x+i][y]!=word.charAt(i)){
@@ -171,8 +171,8 @@ public class Recursion{
 
 
 
-    public static boolean[] placeWordHorizontal(char[][] board,int x,int y,String word){
-       boolean [] placdByMe=new boolean [word.length()];
+    public static boolean[] placeWordHorizontal(final char[][] board,final int x,final int y,final String word){
+       final boolean [] placdByMe=new boolean [word.length()];
        for (int i = 0; i < placdByMe.length; i++) {
            if(board[x][y+i]=='-'){
                placdByMe[i]=true;
@@ -184,8 +184,8 @@ public class Recursion{
 
 
 
-    public static boolean[] placeWordVertical(char[][] board,int x,int y,String word){
-        boolean [] placdByMe=new boolean [word.length()];
+    public static boolean[] placeWordVertical(final char[][] board,final int x,final int y,final String word){
+        final boolean [] placdByMe=new boolean [word.length()];
         for (int i = 0; i < placdByMe.length; i++) {
             if(board[x+i][y]=='-'){
                 placdByMe[i]=true;
@@ -196,7 +196,7 @@ public class Recursion{
      }
 
 
-    public static void unPlaceHorizontal(char[][] board,boolean []placedByMe,int x,int y){
+    public static void unPlaceHorizontal(final char[][] board,final boolean []placedByMe,final int x,final int y){
        for (int i = 0; i < placedByMe.length; i++) {
            if(placedByMe[i]){
                board[x][y+i]='-';
@@ -205,7 +205,7 @@ public class Recursion{
     }
 
 
-    public static void unPlaceVertical(char[][] board,boolean []placedByMe,int x,int y){
+    public static void unPlaceVertical(final char[][] board,final boolean []placedByMe,final int x,final int y){
         for (int i = 0; i < placedByMe.length; i++) {
             if(placedByMe[i]){
                 board[x+i][y]='-';
@@ -214,7 +214,7 @@ public class Recursion{
      }
 
 
-     public static int  crossWordSolver(char[][]board,String [] words,int idx) {
+     public static int  crossWordSolver(final char[][]board,final String [] words,final int idx) {
         if(idx==words.length){
              for (int i = 0; i < board.length; i++) {
                 System.out.println(Arrays.toString(board[i]));
@@ -225,18 +225,18 @@ public class Recursion{
         }
 
         int ans =0;
-        String word =words[idx]; 
+        final String word =words[idx]; 
         for (int i = 0; i < board.length; i++) {
 
             for (int j = 0; j < board[0].length; j++) {
             
                    if(isSafeToPlaceHorizontal(board, i, j, word)){
-                        boolean []placedByMe=placeWordHorizontal(board, i, j, word);
+                        final boolean []placedByMe=placeWordHorizontal(board, i, j, word);
                         ans+=crossWordSolver(board, words, idx+1);
                         unPlaceHorizontal(board, placedByMe, i, j);
                     }
                     if(isSafeToPlaceVertical(board, i, j, word)){
-                        boolean []placedByMe=placeWordVertical(board, i, j, word);
+                        final boolean []placedByMe=placeWordVertical(board, i, j, word);
                         ans+=crossWordSolver(board, words, idx+1);
                         unPlaceVertical(board, placedByMe, i, j);
                     }
@@ -244,8 +244,6 @@ public class Recursion{
             }
             
         }
-
-
         return ans ;
      }
 

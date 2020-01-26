@@ -1,21 +1,32 @@
+import java.util.*;
+
 public class MajorityElement{
     public static void main(String[] args) {
-        int []arr={1,1,1,3,3,2,2,2};
-        System.out.println(MajorityElementII(arr));
+        int []arr={2147483647};
+        Integer [] a=MajorityElementII(arr);
+
+        //System.out.println(Arrays.toString(a));
     }
 
 
-    public static int MajorityElementII(int []arr){
-        int []ans=new int [2];
+    public static Integer []  MajorityElementII(int []arr){
+
+    
         int first =Integer.MAX_VALUE;
         int second =Integer.MAX_VALUE;
         int count1=0;
         int count2=0;
         for (int i = 0; i < arr.length; i++) {
-            if(arr[i]==first)count1++;
-            else if(arr[i]==second)count2++;
-            else if(count1==0)first=arr[i];
-            else if(count2==0)second=arr[i];
+            if(arr[i]==first&&arr[i]!=Integer.MAX_VALUE)count1++;
+            else if(arr[i]==second&&arr[i]!=Integer.MAX_VALUE)count2++;
+            else if(count1==0){
+                first=arr[i];
+                count1++;
+            }
+            else if(count2==0){
+                second=arr[i];
+                count2++;
+            }
             else{
                 count1--;
                 count2--;
@@ -29,12 +40,19 @@ public class MajorityElement{
             if(arr[i]==first)count1++;
             if(arr[i]==second)count2++;
         }
-        int s=0;
-
-        if(count1>arr.length/3)return first;
-        if(count2>arr.length/3)return second;
+        ArrayList<Integer> ans=new ArrayList<>();
         
-        return -1;
+
+        if(count1>arr.length/3)ans.add(first);
+        if(count2>arr.length/3)ans.add(second);
+
+        System.out.println(ans);
+         Integer[] a =new Integer[ans.size()];
+         for (int i = 0; i < a.length; i++) {
+            a[i]= ans.get(i);
+         }
+         return a;
+
 
     }
 

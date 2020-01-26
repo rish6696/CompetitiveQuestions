@@ -1,12 +1,13 @@
 public class SubArraySum{
     public static void main(String[] args) {
 
-        int arr[] = {1,4,20,3,10,5};  
-        int sum = 18; 
-        int []ans=sumArraySum(arr, sum);
-        for (int i = 0; i < ans.length; i++) {
-            System.out.print(arr[i]+" ");
-        }
+        int arr[] = {-1,-1,1};  
+        int sum = 0; 
+        System.out.println(noOfSubArray(arr, sum));
+        // int []ans=sumArraySum(arr, sum);
+        // for (int i = 0; i < ans.length; i++) {
+        //     System.out.print(arr[i]+" ");
+        // }
        
     }
 
@@ -26,6 +27,28 @@ public class SubArraySum{
             if(i<arr.length) currSum+=arr[i];
         }
         return ans;
+    }
+
+
+    public static int noOfSubArray(int[]arr,int k){
+        int start=0;
+        int sum =arr[0];
+        int ans =0;
+        for (int i = 1; i <= arr.length; i++) {
+            while(sum>k&& start<i-1){
+                sum-=arr[start];
+                start++;
+            }
+            if(sum ==k){
+                ans++;
+                start++;
+                if(start<arr.length)sum =arr[start];
+                i=start+1;
+            }
+            if(i<arr.length) sum+=arr[i];
+        }
+
+        return ans ;
     }
 
   
