@@ -354,14 +354,14 @@ public class Lect1 {
 
         @Override
         public int compareTo(DjisktaPair other) {
-            return other.wsf - this.wsf;
+            return this.wsf-other.wsf;
         }
 
     }
 
-    public static void djisktraAlgo() {
+    public static void djisktraAlgo(int source) {
         int[] ans = new int[graph.size()];
-        DjisktaPair base = new DjisktaPair(0, -1, 0, 0);
+        DjisktaPair base = new DjisktaPair(source, -1, 0, 0);
         PriorityQueue<DjisktaPair> queue = new PriorityQueue<>();
         boolean[] visited = new boolean[graph.size()];
         queue.add(base);
