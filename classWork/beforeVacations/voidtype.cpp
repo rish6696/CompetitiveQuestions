@@ -967,20 +967,20 @@ int main()
 
 //     cout << wordbreak("aaaaa", "");
 
-    // //  vector<int> arr (26,-1);
-    // //  vector<bool> brr(10,false);
-    // //  int a=crypto("sendmory",0,arr,brr,"send","more","money");
+    vector<int> arr (26,-1);
+    vector<bool> brr(10,false);
+    int a=crypto("sendmory",0,arr,brr,"send","more","money");
     // //  cout<<a;
-    vector<vector<int>> board = {{3, 0, 6, 5, 0, 8, 4, 0, 0},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {4, 8, 7, 0, 0, 0, 0, 3, 1},
-                                 {0, 0, 3, 0, 1, 0, 0, 8, 0},
-                                 {9, 0, 0, 8, 6, 3, 0, 0, 5},
-                                 {0, 5, 0, 0, 9, 0, 6, 0, 0},
-                                 {1, 3, 0, 0, 0, 0, 2, 5, 0},
-                                 {0, 0, 0, 0, 0, 0, 0, 7, 4},
-                                 {0, 0, 5, 2, 0, 6, 3, 0, 0}};
-                                populateSudoku(board);
-    cout << sudokuSolver(board, 0);
+    // vector<vector<int>> board = {{3, 0, 6, 5, 0, 8, 4, 0, 0},
+    //                              {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    //                              {4, 8, 7, 0, 0, 0, 0, 3, 1},
+    //                              {0, 0, 3, 0, 1, 0, 0, 8, 0},
+    //                              {9, 0, 0, 8, 6, 3, 0, 0, 5},
+    //                              {0, 5, 0, 0, 9, 0, 6, 0, 0},
+    //                              {1, 3, 0, 0, 0, 0, 2, 5, 0},
+    //                              {0, 0, 0, 0, 0, 0, 0, 7, 4},
+    //                              {0, 0, 5, 2, 0, 6, 3, 0, 0}};
+    //                             populateSudoku(board);
+    // cout << sudokuSolver(board, 0);
     return 0;
 }

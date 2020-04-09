@@ -60,6 +60,20 @@ void serialLize(Node * node){
 
 }
 
+Node* serialLizeAndReturnTail(Node *node){
+    if(node->childrens.size()==0) return node;
+    Node * myTail = serialLizeAndReturnTail(node->childrens.back());
+
+    for(int i=node->childrens.size()-2;i>=0;i--){
+        Node * currTail =serialLizeAndReturnTail(node->childrens[i]);
+        currTail->childrens.push_back(node->childrens.back());
+
+        node->childrens.pop_back();
+    }
+    return myTail;
+
+}
+
 Node* createTree(vector<int>&arr){
  stack <Node *> st;
  for (int  i = 0; i < arr.size()-1; i++)
@@ -101,7 +115,7 @@ int main(){
     Node * node =createTree(order);
     display(node);
     cout<<"********************************************"<<endl;
-    serialLize(node);
+    serialLizeAndReturnTail(node);
     
     display(node);
     return 0;

@@ -594,5 +594,47 @@ public TreeNode removeNode(TreeNode node,int data,int l,int r){
 }
 
 
+public void increasingBST() {
+    TreeNode [] ans =new TreeNode[]{null,null};
+    createTree(root,ans);
+    display(ans[0]);
+}
+
+
+public void createTree(TreeNode node,TreeNode[]parent){
+    if(node==null) return ;
+    createTree(node.left,parent);
+    if(parent [0]==null){
+        parent[0]=node;
+        parent[1]=node;
+    }else{
+        TreeNode a =new TreeNode(node.val);
+        parent[1].right =a;
+        parent[1]=a;  
+    }
+    createTree(node.right,parent);
+}
+
+
+
+
+
+public int rangeSum(int l ,int r){
+  return rangeSumBST(root, l, r);
+}
+private  int rangeSumBST(TreeNode root, int L, int R) {
+    if(root ==null) return 0;
+    
+    int sum =0;
+    if(root.val >=L && root.val <= R){
+        sum +=root.val;
+    }
+    int left =0;
+    int right =0;
+    if(root.val<R) right  =rangeSumBST(root.right,L,R);
+    if(root.val > L) left =rangeSumBST(root.left,L,R);
+    
+    return sum +left+right;
+}
 
 }

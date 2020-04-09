@@ -33,7 +33,7 @@ public class Tree{
    }
 
    public TreeNode createTree(){
-    if( this.preOrder[idx]==-1){
+    if( idx >=this.preOrder.length||this.preOrder[idx]==-1 ){
         idx++;
         return null;
     }
@@ -582,6 +582,197 @@ if(l && r) ans[0]=node;
 return l || r;
     
 }
+
+
+public TreeNode getTree(int[] pre,int []post,int []preI,int []posI){
+    if( preI[0] >=pre.length -1 || posI[0]>=post.length -1||  pre[preI[0]]==post[posI[0]]){
+        int val =pre[preI[0]];
+        TreeNode node =new TreeNode(val);
+        preI[0]++;
+        posI[0]++;
+        return node;
+    }
+    
+    int val =pre[preI[0]];
+    preI[0]++;
+    
+    TreeNode node =new TreeNode(val);
+    node.left =getTree(pre,post,preI,posI);
+    node.right = getTree(pre,post,preI,posI);
+    
+    posI[0]++;
+    return node;
+    
+}
+
+public void constructFromPrePost(int[] pre, int[] post) {
+    int []preI=new int []{0};
+    int []posI=new int []{0};
+    display(getTree(pre,post,preI,posI));
+    
+}
+
+
+
+ Map<Integer, List<TreeNode>> memo = new HashMap<>();
+
+ public void possibleBST(int n){
+    HashMap<Integer,List<TreeNode>> cache=new HashMap<>();
+    for(TreeNode node: possibleNodes(n,cache) ){
+        display(node);
+        System.out.println("***************************************");
+    }
+ }
+
+    // public List<TreeNode> allPossibleFBT(int N) {
+    //     if (!memo.containsKey(N)) {
+    //         List<TreeNode> ans = new LinkedList<>();
+    //         if (N == 1) {
+    //             ans.add(new TreeNode(0));
+    //         } else if (N % 2 == 1) {
+    //             for (int x = 0; x < N; ++x) {
+    //                 int y = N - 1 - x;
+    //                 for (TreeNode left: allPossibleFBT(x))
+    //                     for (TreeNode right: allPossibleFBT(y)) {
+    //                         TreeNode bns = new TreeNode(0);
+    //                         bns.left = left;
+    //                         bns.right = right;
+    //                         ans.add(bns);
+    //                     }
+    //             }
+    //         }
+    //         memo.put(N, ans);
+    //     }
+
+    //     return memo.get(N);
+    // }
+
+    public List<TreeNode> possibleNodes(int n,HashMap<Integer,List<TreeNode>> cache ) {
+    
+      if(cache.containsKey(n)){
+        return cache.get(n);
+      }
+      List<TreeNode> ans =new ArrayList<>();
+      if(n==1){
+          TreeNode node =new TreeNode(0);
+          ans.add(node);
+          return ans;
+      }
+
+      int i =1;
+      while(i<n){
+        int l =i;
+        int r =n-i-1;
+        List<TreeNode> left =possibleNodes(l,cache);
+        List<TreeNode> right =possibleNodes(r,cache);
+        i+=2;
+        for(TreeNode a :left){
+            for(TreeNode b:right){
+                TreeNode c =new TreeNode(0);
+                c.left=a;
+                c.right=b;
+                ans.add(c);
+            }
+        }
+
+
+      }
+      cache.put(n, ans);
+      return ans ;
+    }
+
+
+
+    public boolean flipEquiv(Tree t) {
+        TreeNode root1=this.root;
+        TreeNode root2=t.root;
+        if(root1.val!=root2.val)return false;
+        return sol(root1,root2);    
+    }
+    
+    
+    public boolean sol(TreeNode a,TreeNode b) {
+        if(a.left==null &&b.left==null && b.right==null && a.right ==null)return true;
+        boolean left =false;
+        boolean right =false;
+        
+        if(a.left!=null && b.left!=null &&a.left.val ==b.left.val) {
+            left =sol(a.left,b.left);
+        }
+        if(a.left!=null && b.right!=null &&  a.left.val ==b.right.val){
+            left =sol(a.left,b.right);
+        }
+
+        if(a.left==null){
+            left = b.left==null || b.right==null;
+        }
+        
+        if(a.right!=null && b.right!=null &&a.right.val == b.right.val){
+            right =sol(a.right,b.right);
+        }
+        if(a.right!=null && b.left!=null &&a.right.val ==b.left.val){
+            right =sol(a.right ,b.left);
+        }
+
+        if(a.right==null){
+            right = b.left==null || b.right==null;
+        }
+
+        return left && right ;
+    }
+
+    class ANode {  // Annotated Node
+        TreeNode node;
+        int code;
+        ANode(TreeNode node, int code) {
+            this.node = node;
+            this.code = code;
+        }
+}
+
+
+public boolean isCompleteTree() {
+    List<ANode> nodes = new ArrayList<>();
+    nodes.add(new ANode(root, 1));
+    int i = 0;
+    while (i < nodes.size()) {
+        ANode anode = nodes.get(i++);
+        if (anode.node != null) {
+            nodes.add(new ANode(anode.node.left, anode.code * 2));
+            nodes.add(new ANode(anode.node.right, anode.code * 2 + 1));
+        }
+    }
+
+    return nodes.get(i-1).code == nodes.size();
+}
+
+
+
+public int maxAncestorDiff() {
+    int [] ans =new int []{Integer.MIN_VALUE};
+    sol(root,ans);
+    return ans[0];
+}
+
+
+
+public int sol(TreeNode root ,int[] ans){
+    if(root==null)return Integer.MAX_VALUE;
+    if(root.left==null&&root.right==null)return root.val;
+    
+    int left =sol(root.left,ans);
+    int right =sol(root.right,ans);
+    
+    int m =Math.min(left,right);
+    
+    ans[0]=Math.max(ans[0],root.val-m);
+    return Math.min(m,root.val);
+    
+    
+}
+
+
+
 
 
 }
