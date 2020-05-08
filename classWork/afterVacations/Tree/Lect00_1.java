@@ -93,14 +93,12 @@ public class Lect00_1{
 
     public static void main(String[] args) {
        // int [] preOrder ={10,20,40,-1,-1,-1,30,-1,-1};
-       int [] preOrder ={ 10,20,40,80,-1,-1,90,-1,-1,50,11,-1,-1,12,-1,-1,30,60,1,73,-1,-1,65,-1,-1,2,-1,-1,70,9,-1,-1,47,-1,-1 }; 
+       int [] preOrder ={ 10,20,40,80,-1,-1,90,-1,-1,50,-1,-1,30,60,-1,-1,70,130,-1,-1,140,-1,-1}; 
         //int [] preOrder ={};
         root =createTree(preOrder);
-        System.out.println(root);
-
-        System.out.println("******************************");
-
-        levelOrdertraversal();
+        display(root);
+        System.out.println();
+        printBoundary(root);
     }
     public static int height(Node node){
         if(node ==null) return -1;
@@ -263,6 +261,38 @@ public class Lect00_1{
        }
        printHieghtWise(node.left, level+1, levelToprint);
        printHieghtWise(node.right,level+1, levelToprint);
+    }
+
+
+    public static void printBoundary(Node root){
+       printLeftNodes(root);
+       printLeaf(root);
+       printRightNodes(root,root);
+    }
+
+    private static void printLeftNodes(Node node) {
+        System.out.print(node.data+" ");
+        if(node.left!=null&&node.left.left!=null){
+            printLeftNodes(node.left);
+        }
+    }
+
+
+    private static void printRightNodes(Node node,Node root) {
+        if(node.right!=null&&node.right.right!=null){
+            printRightNodes(node.right,root);
+        }
+        if(node!=root) System.out.print(node.data+" ");
+    }
+
+    private static void printLeaf(Node node){
+       if(node==null) return ;
+       if(node.left==null&&node.right==null){
+           System.out.print(node.data+" ");
+        }
+
+        printLeaf(node.left);
+        printLeaf(node.right);
     }
 
 

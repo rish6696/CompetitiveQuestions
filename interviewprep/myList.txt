@@ -1,0 +1,15 @@
+8/5/20
+1.Leetcode 795 Bounded maximum
+dis:
+
+i and j yahan pr 1 valid window hogy 
+
+jese 0 3 1 4 5 2 
+toh jese hi mai 3 pe aunga to 1 valid window create hogy 
+aur usse 0 3 aur 3 1 subarray create hoga 
+
+aur jb 1 pe aunga toh (val<L)
+
+toh j-i+1 sub log subraay me contibute krenegy 
+jese 0 3 1 and  3 1.
+

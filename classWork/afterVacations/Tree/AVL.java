@@ -225,7 +225,6 @@ public List< List<Integer> > verticalView(){
         int s =queue.size();
         while(s>0){
             s--;
-
             VerticalPair p =queue.removeFirst();
             levelList.add(p);
             TreeNode rmNode =p.node;

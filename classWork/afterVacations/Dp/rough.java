@@ -2,12 +2,27 @@ import java.util.Arrays;
 
 public class rough {
     public static void main(String[] args) {
-        int []a ={2,3,5,7};
-        int []b ={1,8,9,6};
-
-        System.out.println(Arrays.toString(sumarray(a, b, a.length, b.length)));
+        int []a ={4,2,1,3,-1,90,-109,345};
+    
+       insertionSort(a);
+       System.out.println(Arrays.toString(a));
         
     }
+
+    public static void insertionSort(int []arr){
+
+       for (int i = 1; i < arr.length; i++) {
+           int val =arr[i];
+           int j =i-1;
+           while(j>=0&&arr[j]>=val){
+               arr[j+1]=arr[j];
+               j--;
+           }
+           arr[j+1]=val;
+       }
+    }
+
+
     public static int[] sumarray(int a[], int b[], int n, int m) {
         int sum, carry = 0;
         int i = n - 1;

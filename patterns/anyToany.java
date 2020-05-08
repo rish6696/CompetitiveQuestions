@@ -1,7 +1,8 @@
 
 public class anyToany {
 public static void main(String[] args) {
-    System.out.println(anytoany(10, 10, 8));
+	//System.out.println(anytoany(10, 10, 8));
+	System.out.println(dectoany(10, 2));
 }
 
 

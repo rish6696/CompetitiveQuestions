@@ -12,7 +12,6 @@ void display(vector<int> &arr)
     cout << endl;
 }
 
-
 void display2dBool(vector<vector<bool>> &dp)
 {
     for (int i = 0; i < dp.size(); i++)
@@ -38,39 +37,139 @@ void display2d(vector<vector<int>> &dp)
         cout << endl;
     }
 }
+int stringOccursAsASubsequenceDP(string str, string seq)
+{
 
+    vector<vector<int>> dp(str.size() + 1, vector<int>(seq.size() + 1, -1));
+    for (int i = dp.size() - 1; i >= 0; i--)
+    {
+        for (int j = dp[0].size() - 1; j >= 0; j--)
+        {
+            if (j == seq.size())
+            {
+                dp[i][j] = 1;
+                continue;
+            }
 
-int getSumInrange(vector<int>&prefix,int si,int ei){
-   if(si==0) return prefix[ei];
-   else return prefix[ei]-prefix[si-1];
+            if (i == str.size())
+            {
+                dp[i][j] = 0;
+                continue;
+            }
+
+            int ans = 0;
+
+            if (str.at(i) == seq.at(j))
+            {
+                ans = dp[i + 1][j] + dp[i + 1][j + 1];
+            }
+            else
+            {
+                ans = dp[i + 1][j];
+            }
+
+            dp[i][j] = ans;
+        }
+    }
+    return dp[0][0];
 }
 
+int stringOccursAsASubsequence(string str, string seq, int i, int j, vector<vector<int>> &dp)
+{
 
-int optimalBST_RECURSION(vector<int>&freq,vector<int>&values,vector<int>&prefixSum,int start,int end,vector<vector<int>>&dp){
-   
-    if(dp[start][end]!=INT32_MAX) return dp[start][end];
-    
-    if(start==end){
-        dp[start][end]=freq[start];
+    if (j == seq.size() || i == str.size() && j == seq.size())
+        return dp[i][j] = 1;
+    if (i == str.size())
+        return dp[i][j] = 0;
+
+    int ans = 0;
+
+    if (str.at(i) == seq.at(j))
+    {
+        ans = stringOccursAsASubsequence(str, seq, i + 1, j, dp) + stringOccursAsASubsequence(str, seq, i + 1, j + 1, dp);
+    }
+    else
+    {
+        ans = stringOccursAsASubsequence(str, seq, i + 1, j, dp);
+    }
+
+    dp[i][j] = ans;
+    return ans;
+}
+
+int LCS_DP(string a, string b)
+{
+
+    vector<vector<int>> dp(a.size() + 1, vector<int>(b.size(), 0));
+    for (int i = dp.size() - 1; i >= 0; i--)
+    {
+        for (int j = dp[0].size() - 1; j >= 0; j--)
+        {
+
+            if (i == a.size() || j == b.length())
+            {
+                dp[i][j] = 0;
+                continue;
+            }
+            if (a.at(i) == b.at(j))
+            {
+                dp[i][j] = 1 + dp[i + 1][j + 1];
+                continue;
+            }
+            dp[i][j] = max(dp[i + 1][j], dp[i][j + 1]);
+        }
+    }
+    return dp[0][0];
+}
+
+int LCS_RECURSIVE(string a, string b, int i, int j)
+{
+    if (i == a.size() || j == b.length())
+        return 0;
+    if (a.at(i) == b.at(j))
+        return 1 + LCS_RECURSIVE(a, b, i + 1, j + 1);
+    return max(LCS_RECURSIVE(a, b, i + 1, j), LCS_RECURSIVE(a, b, i, j + 1));
+}
+
+int getSumInrange(vector<int> &prefix, int si, int ei)
+{
+    if (si == 0)
+        return prefix[ei];
+    else
+        return prefix[ei] - prefix[si - 1];
+}
+
+int optimalBST_RECURSION(vector<int> &freq, vector<int> &values, vector<int> &prefixSum, int start, int end, vector<vector<int>> &dp)
+{
+
+    if (dp[start][end] != INT32_MAX)
+        return dp[start][end];
+
+    if (start == end)
+    {
+        dp[start][end] = freq[start];
         return dp[start][end];
     }
-    
-    int ans =INT32_MAX;
-    for(int cut=start;cut<=end;cut++){
-        int left =0;
-        int right =0;
-        int myAns =0;
 
-        if(start<=cut-1){
-            left=optimalBST_RECURSION(freq,values,prefixSum, start,cut-1,dp);
+    int ans = INT32_MAX;
+    for (int cut = start; cut <= end; cut++)
+    {
+        int left = 0;
+        int right = 0;
+        int myAns = 0;
+
+        if (start <= cut - 1)
+        {
+            left = optimalBST_RECURSION(freq, values, prefixSum, start, cut - 1, dp);
         }
-        if(cut+1<=end){
-            right =optimalBST_RECURSION(freq,values, prefixSum,cut+1,end,dp);
+        if (cut + 1 <= end)
+        {
+            right = optimalBST_RECURSION(freq, values, prefixSum, cut + 1, end, dp);
         }
-        myAns = left+right+ getSumInrange(prefixSum,start,end);
-        ans=min(ans,myAns);
+        myAns = left + right + getSumInrange(prefixSum, start, end);
+        ans = min(ans, myAns);
     }
-    dp[start][end]= ans;
+    dp[start][end] = ans;
     return ans;
 }
 
@@ -97,7 +196,7 @@ int ballonBurstDp(vector<int> &nums)
             }
             else
             {
-                int ans =INT32_MIN;
+                int ans = INT32_MIN;
                 for (int cut = start; cut <= end; cut++)
                 {
                     int myAns = 0;
@@ -122,7 +221,7 @@ int ballonBurstDp(vector<int> &nums)
     }
 
     display2d(dp);
-    return dp[0][nums.size()-1];
+    return dp[0][nums.size() - 1];
 }
 
 int ballonBurstRecursion(int start, int end, vector<int> &arr, vector<vector<int>> &dp)
@@ -1118,23 +1217,31 @@ int main()
     //  // display2dBool(isP);
     //   cout<<minCutPallindromePartition(str,0,isP)<<endl;
     //   cout<<minCutPallindromePartitionDP(str,isP)<<endl;
-    vector<int> values = {10,12,20};
-    vector<int> freq =    {34,8,50};
-    vector<int> prefx (freq.size(),0);
-    vector<vector<int>> dp(values.size(), vector<int>(values.size(), INT32_MAX));
+    // vector<int> values = {10, 12, 20};
+    // vector<int> freq = {34, 8, 50};
+    // vector<int> prefx(freq.size(), 0);
+    // vector<vector<int>> dp(values.size(), vector<int>(values.size(), INT32_MAX));
 
-    prefx[0]=freq[0];
-    for(int i =1;i<prefx.size();i++){
-        prefx[i]=prefx[i-1]+freq[i];
-        cout<<prefx[i]<<endl;
-    }
+    // prefx[0] = freq[0];
+    // for (int i = 1; i < prefx.size(); i++)
+    // {
+    //     prefx[i] = prefx[i - 1] + freq[i];
+    //     cout << prefx[i] << endl;
+    // }
 
-    cout<<optimalBST_RECURSION(freq,values,prefx,0,freq.size()-1,dp)<<endl;
-    display2d(dp);
+    // cout << optimalBST_RECURSION(freq, values, prefx, 0, freq.size() - 1, dp) << endl;
+    // display2d(dp);
     //cout<<longestIncreasingSubsequence(arr)<<endl;
     // cout<<longestDecreasingSubsequence(arr)<<endl;
-   // cout << ballonBurstRecursion(0, arr.size() - 1, arr, dp) << endl;
-   // cout<<ballonBurstDp(arr)<<endl;
+    // cout << ballonBurstRecursion(0, arr.size() - 1, arr, dp) << endl;
+    // cout<<ballonBurstDp(arr)<<endl;
     //display2d(dp);
+    string a = "geeksforgeeks";
+    string b = "gks";
+    vector<vector<int>> dp(a.size() + 1, vector<int>(b.size() + 1, -1));
+    cout << stringOccursAsASubsequence(a, b, 0, 0, dp) << endl;
+    cout<<stringOccursAsASubsequenceDP(a,b)<<endl;
+    // cout<<LCS_RECURSIVE(a,b,0,0)<<endl;
+    // cout<<LCS_DP(a,b)<<endl;
     return 0;
 }

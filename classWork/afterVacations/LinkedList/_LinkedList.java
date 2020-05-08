@@ -410,4 +410,276 @@ public class _LinkedList {
         }
         return prev;
     }
+
+    private class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+        public TreeNode(int x) { 
+         this.val = x;
+        }
+    }
+    private static void displayTree(TreeNode node){
+        if(node==null)return;
+        StringBuilder str =new StringBuilder();
+        if(node.left==null) str.append("Null");
+        else str.append(node.left.val);
+        str.append("=>");
+        str.append(node.val+"<=");
+        if(node.right==null)str.append("Null");
+        else str.append(node.right.val);
+    
+        System.out.println(str);
+        
+        displayTree(node.left);
+        displayTree(node.right);
+        
+    }
+
+     
+       
+    public void printTree(){
+        TreeNode root = getTreeFromLinkedList(this.head);
+        displayTree(root);
+    }
+    private ListNode[] middleNode(ListNode head) {
+        
+        ListNode fast =head;
+        ListNode slow =head;
+        ListNode slowPrev = null;
+            
+        while(fast.next!=null&&fast.next.next!=null&&slow.next!=null){
+            fast=fast.next.next;
+            slowPrev = slow;
+            slow=slow.next;
+            
+        }
+        return  new ListNode[]{slow,slowPrev};
+    }
+
+    private TreeNode getTreeFromLinkedList(ListNode head){
+        if(head==null) return null;
+        
+        ListNode[] midArray= middleNode(head);
+        
+        ListNode mid     = midArray[0];
+        ListNode midPrev = midArray[1];
+    
+        TreeNode node = new TreeNode(mid.val);
+        if(midPrev==null){
+            node.left =null;
+        }
+        else{
+            midPrev.next=null;
+            node.left= getTreeFromLinkedList(head);
+        }
+        
+        node.right = getTreeFromLinkedList(mid.next);
+        return node;
+
+    }
+
+
+    public void sortList(){
+        this.head=insertionSortList(this.head);
+    }
+
+
+    private ListNode insertionSortList(ListNode head) {
+        
+        if(head==null|| head.next==null) return head;
+        ListNode itr = head.next;
+        ListNode ansHead=head;
+        head.next=null;
+        ListNode newCurr =null;
+        while(itr!=null){
+            newCurr=itr.next;
+            ansHead = insertNodeinSortedList(ansHead,itr);
+            itr=newCurr;
+        }
+        return ansHead;
+    }
+    //add val in sortedlist and return its head
+    private ListNode insertNodeinSortedList(ListNode head ,ListNode node){
+        
+        node.next=null;
+        if(node.val<=head.val){
+            node.next=head;
+            return node;
+        }  
+       
+        ListNode itr = head;
+        boolean done =false;
+        
+        while(!done){
+            if(itr.next==null){
+                itr.next=node;
+                done=true;
+            }
+            if(node.val>=itr.val&&node.val<itr.next.val){
+                node.next =itr.next;
+                itr.next=node;
+                done =true;
+            }
+            itr=itr.next;
+        }
+        
+        return head;
+    }
+
+    private void displayNode(ListNode head){
+        ListNode curr=head;
+        while(curr!=null){
+            System.out.print(curr);
+            curr=curr.next;
+        }
+        System.out.print("NULL");
+        System.out.println();
+     }
+
+    public void printSpliitedLists(int k){
+        for(ListNode node:splitListToParts(this.head, k)){
+           displayNode(node);
+        }
+    }
+
+    private int getSize(ListNode head){
+        ListNode ptr = head;
+        int size=0;
+        
+        while(ptr!=null){
+            size++;
+            ptr=ptr.next;
+        }
+        return size;
+    }
+
+    private ListNode[] splitListToParts(ListNode head, int k) {
+        
+        int size = getSize(head);
+        ListNode [] ans = new ListNode[k];
+        ListNode nextPtr=null;
+        ListNode ptr=null;
+        
+        if(size>k){
+            int x = size/k;
+            int y =  size%k;
+            int fs =0;
+            
+            int rs=0;
+            int left = 0;
+
+            if(y==0){
+                fs=x;
+                rs=x;
+            }
+            
+            else if(y==1){
+              fs = x+y;
+              rs=x;
+            }else{
+                fs=y;
+                rs=y;
+            }
+            
+            left=size-fs;
+            
+            ptr = head;
+            while(fs>1){
+                fs--;
+                ptr=ptr.next;
+            }
+            nextPtr = ptr.next;
+            ptr.next=null;
+            ans[0]=head;
+            
+            
+            
+            head = nextPtr;
+            ListNode itr = nextPtr;
+            int idx =1;
+            while(left>0){
+                int count = 0;
+                if(y==1) count =rs;
+                else {
+                    if(idx==k-1) count = x;
+                    else count = rs;  
+                }
+                left =left-count;
+                while(count>1){
+                    itr=itr.next;
+                    count--;
+                }
+                nextPtr = itr.next;
+                itr.next=null;
+                ans[idx]=head;
+                head = nextPtr;
+                itr = nextPtr;
+                idx++;
+            }  
+            
+            
+        }else{
+           ptr = head;
+           int idx =0;
+           while(size>0){
+               size--;
+               nextPtr = ptr.next;
+               ptr.next=null;
+               ans[idx]=ptr;
+               ptr = nextPtr;
+               idx++;
+           }
+        }
+        
+        return ans;
+        
+       
+    }
+
+    public void removeConsecutiveZero(){
+        this.head = removeZeroSumSublists(this.head);
+    }
+
+    private ListNode removeZeroSumSublists(ListNode head) {
+        if(head==null )  return head;
+        if(head.next==null){
+            if(head.val==0)  return null;
+            return head;
+        }
+        
+        Stack<ListNode> stack = new Stack<>();
+        ListNode curr= head;
+        ListNode inner = null;
+        ListNode rmv =null;
+        int sum =0;
+        int flag =0;
+        while(curr!=null){
+            sum =0;
+            flag =0;
+            inner = curr;
+            while(inner!=null){
+                sum += inner.val;
+                if(sum==0){
+                    flag =1;
+                    if(!stack.isEmpty()) {
+                        rmv =stack.pop();
+                        rmv.next =inner.next;
+                        curr=rmv;
+                    }else{
+                        curr=inner.next;
+                        head=curr;
+                    }
+                    break;
+                    
+                }
+                inner=inner.next;
+            }
+            if(flag==0){
+            stack.push(curr);
+            curr=curr.next;
+            }
+        } 
+        return head;
+    }
 }

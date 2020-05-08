@@ -1,0 +1,5 @@
+1. Median soretd array
+2. Bridge problem 
+3. task Scheduling
+4. maxium in sliding window
+5. count no of pallindrome subsequence
