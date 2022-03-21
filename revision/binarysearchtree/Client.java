@@ -8,16 +8,7 @@ public class Client {
            tree.addNode(i*10);
        }
       System.out.println(tree);
-      // tree.printHeights();
-
-       System.out.println("***************************");
-       tree.removeNode(30);
-       tree.removeNode(10);
-       tree.removeNode(20);
-
-       System.out.println(tree);
+     
    
-
-      // tree.printHeights();
    }
 } 

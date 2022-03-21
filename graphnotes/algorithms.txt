@@ -1,0 +1,47 @@
+
+
+1. Djikstra Algorithm 
+
+  SHORTEST PATH (With only Positive weights)
+
+  BFS + Priority Que + add path so Far 
+
+2. Prim's Algorithm 
+
+MST(minimum spaaning tree)
+
+BFS + Priority Queue
+
+
+3. Topological Sort 
+
+only Exsits for Acycliclic Directed Graph
+
+a> Do DFS 
+b> while returing from node print it
+
+4. Kahns' algo (Topo Sort)
+
+Cal inDegree for all nodes , and store nodes having iinDeegree = 0 in Queue
+Do a BFS on that Queue
+While visiting niehgbours
+ print node(this will be Topo Order)
+ decrease the indeegree for nodes added in Queue i.e niehgbours
+  if Indeegree of that Nodes == 0 add that to the QUEUE.
+
+  Also Count total nodes == visited if total visiited == total nodes , then topo sort exist else does not exists 
+
+
+5. Strongly Connect Component (Connected component for Directed Graph)
+
+1. Do DFS from any Node , add visiting node in a stack
+2. revert all Edges
+3. Do Dfs from popping from top of stack 
+4. Count total Times DFS done second time  count = total connected component
+
+
+6. Mother vertex
+
+DO DFS 
+Pick the top most element of stack, if from top most element we can visit all vertex then 
+that is mother vertex , if not there is no mother vertex
